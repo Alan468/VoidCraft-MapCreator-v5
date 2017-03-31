@@ -82,8 +82,8 @@ namespace VoidCraft_MapCreator_v5 {
 
         private bool IsInView(int P, int W, int ElementSize) {
 
-            if ((P * MapSizeZoom) + W + 100 >= 0 &&
-             (((P * MapSizeZoom) + W) <= (ElementSize + MapSizeZoom))) return true;
+            if ((P * MapSizeZoom) + W + MapSizeZoom >= 0 &&
+             (((P * MapSizeZoom) + W) <= (ElementSize ))) return true;
 
             return false;
         }
@@ -105,7 +105,6 @@ namespace VoidCraft_MapCreator_v5 {
                         MapCounterGraphics.DrawString(x.ToString(), drawFont, drawBrush, (MapSizeZoom * (x + 1)) - (MapSizeZoom / 2) + PanelScrolX + 30, 5);
                 }
             }
-
             for (int y = 0; y < ProjectData.Height; y++) {
                 for (int x = 0; x < ProjectData.Width; x++) {
 
@@ -129,7 +128,6 @@ namespace VoidCraft_MapCreator_v5 {
 
                 }
             }
-
             drawFont.Dispose();
             drawBrush.Dispose();
             pen.Dispose();
