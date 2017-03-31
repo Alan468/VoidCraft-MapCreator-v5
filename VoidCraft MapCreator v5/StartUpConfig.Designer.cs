@@ -89,11 +89,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(138, 387);
+            this.label2.Location = new System.Drawing.Point(138, 367);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(167, 13);
+            this.label2.Size = new System.Drawing.Size(135, 26);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Sekcja5 Copyright reserved 2017";
+            this.label2.Text = "Sekcja5 Projekt PUM 2017 \nCopyright reserved 2017\n";
             // 
             // label1
             // 

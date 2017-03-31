@@ -5,8 +5,6 @@ using System.Windows.Forms;
 
 namespace VoidCraft_MapCreator_v5 {
 
-
-
     public partial class MapCreator : Form {
         private string projectFile;
 
@@ -65,6 +63,7 @@ namespace VoidCraft_MapCreator_v5 {
                     }
                 }
             }
+
 
             ToolStripMenuItem[] items = new ToolStripMenuItem[ProjectData.Layers];
             for (int i = 0; i < items.Length; i++) {
@@ -240,7 +239,7 @@ namespace VoidCraft_MapCreator_v5 {
                                     if (SelectedTile_Right[0] == ActiveLayer) {
                                         if (Y + sy >= 0 && Y + sy < ProjectData.Height) {
                                             if (X + sx >= 0 && X + sx < ProjectData.Width) {
-                                                Map[Y, X].Id[SelectedTile_Right[0]] = SelectedTile_Right[1];
+                                                Map[Y + sy, X + sx].Id[SelectedTile_Right[0]] = SelectedTile_Right[1];
                                             }
                                         }
                                     }
@@ -283,7 +282,11 @@ namespace VoidCraft_MapCreator_v5 {
         }
 
         private void oProgramieToolStripMenuItem_Click(object sender, EventArgs e) {
-            MessageBox.Show("\tInformacje\n\tKreator/edytor map\n\tSekcja5\n\tAll rights reserved 2017");
+            MessageBox.Show(
+                "\t\tInformacje\n\n"
+                + "\tKreator map VoidCraft\n" +
+                "\tSekcja5 Projekt PUM PolSl 2017 Sem 4 Blok A\n" +
+                "\n\tAll rights reserved 2017");
         }
 
         private void MapCreator_FormClosing(object sender, FormClosingEventArgs e) {
@@ -312,17 +315,21 @@ namespace VoidCraft_MapCreator_v5 {
 
             DialogResult result = Dialog.ShowDialog();
 
+            this.Text = this.Text.Replace(" - " + ProjectData.Name, "");
+
             if (result == DialogResult.OK) {
                 ProjectData.Path = Dialog.SelectedPath;
                 ProjectData.SaveProjectData();
                 ProjectData.SaveProjectMap(Map);
             }
+            this.Text += " - " + ProjectData.Name;
         }
 
         private void nowyProjektToolStripMenuItem_Click(object sender, EventArgs e) {
-                RestartApp = true;
-                this.Close();
+            RestartApp = true;
+            this.Close();
         }
+
 
         private void wyłaczLinieSiatkiToolStripMenuItem_Click(object sender, EventArgs e) {
             LinieSiatki = !LinieSiatki;

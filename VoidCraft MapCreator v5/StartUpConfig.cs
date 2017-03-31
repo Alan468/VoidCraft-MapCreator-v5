@@ -103,6 +103,7 @@ namespace VoidCraft_MapCreator_v5 {
             Layers_Panel_SC.Show();
 
             Layers_Layer_Selector_SC.Maximum = ProjectData.Layers - 1;
+            UpdateDataGridView();
         }
 
         private void LoadProjectFromFile(string Path) {
@@ -177,7 +178,7 @@ namespace VoidCraft_MapCreator_v5 {
                 string name = Directory.Split('\\').Last().Split('.').First();
                 string path = Directory; ;
                 ProjectData.Bitmaps[Layer].Add(new Tile(name, Layer, Id, path));
-
+                Layers_Id_Selector_SC.Value++;
             }
 
             UpdateDataGridView();
@@ -210,6 +211,11 @@ namespace VoidCraft_MapCreator_v5 {
                     Layers_Layers_Data_SC[1, row].Value = B.Id;
                     Layers_Layers_Data_SC[2, row].Value = B.Name;
                     Layers_Layers_Data_SC[3, row].Value = B.Path;
+                    if ((i % 2) == 0) {
+                        Layers_Layers_Data_SC.Rows[row].DefaultCellStyle.BackColor = Color.White;
+                    } else {
+                        Layers_Layers_Data_SC.Rows[row].DefaultCellStyle.BackColor = Color.Wheat;
+                    }
                     row++;
                 }
             }
