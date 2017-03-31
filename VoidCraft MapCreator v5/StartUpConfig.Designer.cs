@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpConfig));
             this.NewLoad_Panel_SC = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,6 +45,7 @@
             this.NewProject_Back_SC = new System.Windows.Forms.Button();
             this.Layers_Panel_SC = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
             this.Layers_Id_Selector_SC = new System.Windows.Forms.NumericUpDown();
             this.Layers_Layer_Selector_SC = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
@@ -59,7 +61,6 @@
             this.DataGrid_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Layers_Ok_SC = new System.Windows.Forms.Button();
             this.Layers_Back_SC = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
             this.NewLoad_Panel_SC.SuspendLayout();
             this.NewProject_Panel_SC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NewProject_Input_Layers_SC)).BeginInit();
@@ -338,6 +339,16 @@
             this.panel2.Size = new System.Drawing.Size(647, 100);
             this.panel2.TabIndex = 3;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.ForeColor = System.Drawing.Color.DarkRed;
+            this.label11.Location = new System.Drawing.Point(3, 78);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(334, 13);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Elementy o ID 0 w każdej warstwie muszą być bitmapą przeźroczystą!";
+            // 
             // Layers_Id_Selector_SC
             // 
             this.Layers_Id_Selector_SC.Location = new System.Drawing.Point(375, 61);
@@ -483,16 +494,6 @@
             this.Layers_Back_SC.UseVisualStyleBackColor = true;
             this.Layers_Back_SC.Click += new System.EventHandler(this.Layers_Back_SC_Click);
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.ForeColor = System.Drawing.Color.DarkRed;
-            this.label11.Location = new System.Drawing.Point(3, 78);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(334, 13);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "Elementy o ID 0 w każdej warstwie muszą być bitmapą przeźroczystą!";
-            // 
             // StartUpConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -503,6 +504,7 @@
             this.Controls.Add(this.NewProject_Panel_SC);
             this.Controls.Add(this.NewLoad_Panel_SC);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "StartUpConfig";
             this.Text = "VoidCraft Map Editor v5";

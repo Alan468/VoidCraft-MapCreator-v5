@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VoidCraft_MapCreator_v5 {
@@ -30,13 +24,14 @@ namespace VoidCraft_MapCreator_v5 {
         private MapTile[,] Map;
         private int PenSize;
         bool LinieSiatki, NumerowanieLinii;
+        public bool RestartApp { get; set; }
 
 
         public MapCreator(string projectFile) {
             this.InitializeComponent();
             this.projectFile = projectFile;
             ActiveLayer = 0;
-
+            RestartApp = false;
             PenSize = 0;
             MapSizeZoom = 50;
             LinieSiatki = true;
@@ -322,6 +317,11 @@ namespace VoidCraft_MapCreator_v5 {
                 ProjectData.SaveProjectData();
                 ProjectData.SaveProjectMap(Map);
             }
+        }
+
+        private void nowyProjektToolStripMenuItem_Click(object sender, EventArgs e) {
+                RestartApp = true;
+                this.Close();
         }
 
         private void wyłaczLinieSiatkiToolStripMenuItem_Click(object sender, EventArgs e) {

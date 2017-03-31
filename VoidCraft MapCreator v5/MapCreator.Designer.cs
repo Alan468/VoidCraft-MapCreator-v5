@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapCreator));
             this.Tool_Box_Panel_MC = new System.Windows.Forms.Panel();
             this.Map_View_Panel_MC = new System.Windows.Forms.Panel();
             this.Map_Counter_Panel_MC = new System.Windows.Forms.Panel();
@@ -34,6 +35,7 @@
             this.przełaczNumerowanieLiniiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.zapiszToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszJakoNowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informacjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +46,8 @@
             this.Zoom_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
             this.Pen_Size_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
-            this.zapiszJakoNowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nowyProjektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -101,6 +104,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.plikToolStripMenuItem,
             this.informacjeToolStripMenuItem,
@@ -112,17 +116,19 @@
             this.Pen_Size_Selector_MC});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(884, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(797, 27);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // plikToolStripMenuItem
             // 
             this.plikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.widokToolStripMenuItem,
-            this.toolStripSeparator2,
+            this.nowyProjektToolStripMenuItem,
+            this.toolStripSeparator3,
             this.zapiszToolStripMenuItem,
             this.zapiszJakoNowyToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.widokToolStripMenuItem,
             this.toolStripSeparator1,
             this.wyjścieToolStripMenuItem});
             this.plikToolStripMenuItem.Name = "plikToolStripMenuItem";
@@ -163,6 +169,13 @@
             this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.zapiszToolStripMenuItem.Text = "Zapisz";
             this.zapiszToolStripMenuItem.Click += new System.EventHandler(this.zapiszToolStripMenuItem_Click);
+            // 
+            // zapiszJakoNowyToolStripMenuItem
+            // 
+            this.zapiszJakoNowyToolStripMenuItem.Name = "zapiszJakoNowyToolStripMenuItem";
+            this.zapiszJakoNowyToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.zapiszJakoNowyToolStripMenuItem.Text = "Zapisz jako nowy";
+            this.zapiszJakoNowyToolStripMenuItem.Click += new System.EventHandler(this.zapiszJakoNowyToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -264,12 +277,17 @@
             this.Pen_Size_Selector_MC.Text = "0";
             this.Pen_Size_Selector_MC.SelectedIndexChanged += new System.EventHandler(this.Pen_Size_Selector_MC_SelectedIndexChanged);
             // 
-            // zapiszJakoNowyToolStripMenuItem
+            // nowyProjektToolStripMenuItem
             // 
-            this.zapiszJakoNowyToolStripMenuItem.Name = "zapiszJakoNowyToolStripMenuItem";
-            this.zapiszJakoNowyToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.zapiszJakoNowyToolStripMenuItem.Text = "Zapisz jako nowy";
-            this.zapiszJakoNowyToolStripMenuItem.Click += new System.EventHandler(this.zapiszJakoNowyToolStripMenuItem_Click);
+            this.nowyProjektToolStripMenuItem.Name = "nowyProjektToolStripMenuItem";
+            this.nowyProjektToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.nowyProjektToolStripMenuItem.Text = "Nowy projekt";
+            this.nowyProjektToolStripMenuItem.Click += new System.EventHandler(this.nowyProjektToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(161, 6);
             // 
             // MapCreator
             // 
@@ -282,6 +300,7 @@
             this.Controls.Add(this.Tool_Box_Panel_MC);
             this.Controls.Add(this.panel1);
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.MinimumSize = new System.Drawing.Size(850, 400);
@@ -324,5 +343,7 @@
         private System.Windows.Forms.ToolStripMenuItem przełaczNumerowanieLiniiToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem zapiszJakoNowyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nowyProjektToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
