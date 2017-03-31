@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VoidCraft_MapCreator_v5 {
+
+
+
     public partial class MapCreator : Form {
         private string projectFile;
 
@@ -23,16 +26,10 @@ namespace VoidCraft_MapCreator_v5 {
         private int ActiveLayer;
         private int[] SelectedTile_Left, SelectedTile_Right;//0 Layer ,1 id
         private int MapSizeZoom;
-        private class MapTile {
-            public int[] Id;
-            public MapTile(int NumberOfLayers) {
-                Id = new int[NumberOfLayers];
-            }
-        }
 
         private MapTile[,] Map;
         private int PenSize;
-        bool LinieSiatki ,NumerowanieLinii;
+        bool LinieSiatki, NumerowanieLinii;
 
 
         public MapCreator(string projectFile) {
@@ -287,7 +284,7 @@ namespace VoidCraft_MapCreator_v5 {
         private void MapCreator_Load(object sender, EventArgs e) { UpdateView(); }
 
         private void zapiszToolStripMenuItem_Click(object sender, EventArgs e) {
-            SaveMapProject();
+            ProjectData.SaveProjectMap(Map);
         }
 
         private void oProgramieToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -297,7 +294,7 @@ namespace VoidCraft_MapCreator_v5 {
         private void MapCreator_FormClosing(object sender, FormClosingEventArgs e) {
             DialogResult result = MessageBox.Show("Czy zapisać projekt?", "Zamykanie", MessageBoxButtons.YesNoCancel);
             if (result == DialogResult.Yes) {
-                SaveMapProject();
+                ProjectData.SaveProjectMap(Map);
 
             } else if (result == DialogResult.Cancel) {
                 e.Cancel = true;
@@ -309,22 +306,22 @@ namespace VoidCraft_MapCreator_v5 {
             this.Close();
         }
 
-        private void SaveMapProject() {
-            for (int l = 0; l < ProjectData.Layers; l++) {
-                using (StreamWriter sw = new StreamWriter(new FileStream(ProjectData.Path + "/Map/L" + l + ".vcmf", FileMode.Create))) {
-                    for (int y = 0; y < ProjectData.Height; y++) {
-                        for (int x = 0; x < ProjectData.Width; x++) {
-                            sw.Write(Map[y, x].Id[l] + " ");
-                        }
-                        sw.WriteLine();
-                    }
-                }
-            }
-        }
-
         private void przełaczNumerowanieLiniiToolStripMenuItem_Click(object sender, EventArgs e) {
             NumerowanieLinii = !NumerowanieLinii;
             UpdateView();
+        }
+
+        private void zapiszJakoNowyToolStripMenuItem_Click(object sender, EventArgs e) {
+            FolderBrowserDialog Dialog = new FolderBrowserDialog();
+            Dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+
+            DialogResult result = Dialog.ShowDialog();
+
+            if (result == DialogResult.OK) {
+                ProjectData.Path = Dialog.SelectedPath;
+                ProjectData.SaveProjectData();
+                ProjectData.SaveProjectMap(Map);
+            }
         }
 
         private void wyłaczLinieSiatkiToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -354,7 +351,7 @@ namespace VoidCraft_MapCreator_v5 {
                 UpdateView();
                 return true;
             } else if (keyData == (Keys.Control | Keys.S)) {
-                SaveMapProject();
+                ProjectData.SaveProjectMap(Map);
                 return true;
             } else if (keyData == (Keys.Control | Keys.Z)) {
                 wyłaczLinieSiatkiToolStripMenuItem_Click(null, null);

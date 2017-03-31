@@ -29,21 +29,22 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wyłaczLinieSiatkiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.przełaczNumerowanieLiniiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.zapiszToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informacjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oProgramieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Layer_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.Layer_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.Zoom_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
             this.Pen_Size_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.wyłaczLinieSiatkiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.przełaczNumerowanieLiniiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zapiszJakoNowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -121,23 +122,57 @@
             this.widokToolStripMenuItem,
             this.toolStripSeparator2,
             this.zapiszToolStripMenuItem,
+            this.zapiszJakoNowyToolStripMenuItem,
             this.toolStripSeparator1,
             this.wyjścieToolStripMenuItem});
             this.plikToolStripMenuItem.Name = "plikToolStripMenuItem";
             this.plikToolStripMenuItem.Size = new System.Drawing.Size(38, 23);
             this.plikToolStripMenuItem.Text = "Plik";
             // 
+            // widokToolStripMenuItem
+            // 
+            this.widokToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.wyłaczLinieSiatkiToolStripMenuItem,
+            this.przełaczNumerowanieLiniiToolStripMenuItem});
+            this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
+            this.widokToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.widokToolStripMenuItem.Text = "Widok";
+            // 
+            // wyłaczLinieSiatkiToolStripMenuItem
+            // 
+            this.wyłaczLinieSiatkiToolStripMenuItem.Name = "wyłaczLinieSiatkiToolStripMenuItem";
+            this.wyłaczLinieSiatkiToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.wyłaczLinieSiatkiToolStripMenuItem.Text = "Przełacz linie siatki";
+            this.wyłaczLinieSiatkiToolStripMenuItem.Click += new System.EventHandler(this.wyłaczLinieSiatkiToolStripMenuItem_Click);
+            // 
+            // przełaczNumerowanieLiniiToolStripMenuItem
+            // 
+            this.przełaczNumerowanieLiniiToolStripMenuItem.Name = "przełaczNumerowanieLiniiToolStripMenuItem";
+            this.przełaczNumerowanieLiniiToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.przełaczNumerowanieLiniiToolStripMenuItem.Text = "Przełacz numerowanie linii";
+            this.przełaczNumerowanieLiniiToolStripMenuItem.Click += new System.EventHandler(this.przełaczNumerowanieLiniiToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(161, 6);
+            // 
             // zapiszToolStripMenuItem
             // 
             this.zapiszToolStripMenuItem.Name = "zapiszToolStripMenuItem";
-            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.zapiszToolStripMenuItem.Text = "Zapisz";
             this.zapiszToolStripMenuItem.Click += new System.EventHandler(this.zapiszToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
             // 
             // wyjścieToolStripMenuItem
             // 
             this.wyjścieToolStripMenuItem.Name = "wyjścieToolStripMenuItem";
-            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.wyjścieToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.wyjścieToolStripMenuItem.Text = "Wyjście";
             this.wyjścieToolStripMenuItem.Click += new System.EventHandler(this.wyjścieToolStripMenuItem_Click);
             // 
@@ -152,16 +187,9 @@
             // oProgramieToolStripMenuItem
             // 
             this.oProgramieToolStripMenuItem.Name = "oProgramieToolStripMenuItem";
-            this.oProgramieToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oProgramieToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.oProgramieToolStripMenuItem.Text = "O programie";
             this.oProgramieToolStripMenuItem.Click += new System.EventHandler(this.oProgramieToolStripMenuItem_Click);
-            // 
-            // Layer_Selector_MC
-            // 
-            this.Layer_Selector_MC.Name = "Layer_Selector_MC";
-            this.Layer_Selector_MC.Size = new System.Drawing.Size(121, 23);
-            this.Layer_Selector_MC.Text = "0";
-            this.Layer_Selector_MC.SelectedIndexChanged += new System.EventHandler(this.Layer_Selector_MC_SelectedIndexChanged);
             // 
             // toolStripTextBox1
             // 
@@ -169,6 +197,13 @@
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBox1.Text = "Aktywna warstwa";
+            // 
+            // Layer_Selector_MC
+            // 
+            this.Layer_Selector_MC.Name = "Layer_Selector_MC";
+            this.Layer_Selector_MC.Size = new System.Drawing.Size(121, 23);
+            this.Layer_Selector_MC.Text = "0";
+            this.Layer_Selector_MC.SelectedIndexChanged += new System.EventHandler(this.Layer_Selector_MC_SelectedIndexChanged);
             // 
             // toolStripTextBox2
             // 
@@ -229,38 +264,12 @@
             this.Pen_Size_Selector_MC.Text = "0";
             this.Pen_Size_Selector_MC.SelectedIndexChanged += new System.EventHandler(this.Pen_Size_Selector_MC_SelectedIndexChanged);
             // 
-            // toolStripSeparator1
+            // zapiszJakoNowyToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // widokToolStripMenuItem
-            // 
-            this.widokToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.wyłaczLinieSiatkiToolStripMenuItem,
-            this.przełaczNumerowanieLiniiToolStripMenuItem});
-            this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
-            this.widokToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.widokToolStripMenuItem.Text = "Widok";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
-            // 
-            // wyłaczLinieSiatkiToolStripMenuItem
-            // 
-            this.wyłaczLinieSiatkiToolStripMenuItem.Name = "wyłaczLinieSiatkiToolStripMenuItem";
-            this.wyłaczLinieSiatkiToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.wyłaczLinieSiatkiToolStripMenuItem.Text = "Przełacz linie siatki";
-            this.wyłaczLinieSiatkiToolStripMenuItem.Click += new System.EventHandler(this.wyłaczLinieSiatkiToolStripMenuItem_Click);
-            // 
-            // przełaczNumerowanieLiniiToolStripMenuItem
-            // 
-            this.przełaczNumerowanieLiniiToolStripMenuItem.Name = "przełaczNumerowanieLiniiToolStripMenuItem";
-            this.przełaczNumerowanieLiniiToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.przełaczNumerowanieLiniiToolStripMenuItem.Text = "Przełacz numerowanie linii";
-            this.przełaczNumerowanieLiniiToolStripMenuItem.Click += new System.EventHandler(this.przełaczNumerowanieLiniiToolStripMenuItem_Click);
+            this.zapiszJakoNowyToolStripMenuItem.Name = "zapiszJakoNowyToolStripMenuItem";
+            this.zapiszJakoNowyToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.zapiszJakoNowyToolStripMenuItem.Text = "Zapisz jako nowy";
+            this.zapiszJakoNowyToolStripMenuItem.Click += new System.EventHandler(this.zapiszJakoNowyToolStripMenuItem_Click);
             // 
             // MapCreator
             // 
@@ -314,5 +323,6 @@
         private System.Windows.Forms.ToolStripMenuItem wyłaczLinieSiatkiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem przełaczNumerowanieLiniiToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem zapiszJakoNowyToolStripMenuItem;
     }
 }
