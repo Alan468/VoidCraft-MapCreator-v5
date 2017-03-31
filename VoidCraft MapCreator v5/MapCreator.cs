@@ -1,0 +1,369 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace VoidCraft_MapCreator_v5 {
+    public partial class MapCreator : Form {
+        private string projectFile;
+
+        private Graphics ToolBoxGraphics;
+        private Bitmap ToolBoxBitmap;
+        private Graphics MapGraphics;
+        private Bitmap MapBitmap;
+        private Graphics MapCounterGraphics;
+        private Bitmap MapCounterBitmap;
+
+        private int ActiveLayer;
+        private int[] SelectedTile_Left, SelectedTile_Right;//0 Layer ,1 id
+        private int MapSizeZoom;
+        private class MapTile {
+            public int[] Id;
+            public MapTile(int NumberOfLayers) {
+                Id = new int[NumberOfLayers];
+            }
+        }
+
+        private MapTile[,] Map;
+        private int PenSize;
+        bool LinieSiatki ,NumerowanieLinii;
+
+
+        public MapCreator(string projectFile) {
+            this.InitializeComponent();
+            this.projectFile = projectFile;
+            ActiveLayer = 0;
+
+            PenSize = 0;
+            MapSizeZoom = 50;
+            LinieSiatki = true;
+            NumerowanieLinii = true;
+            SelectedTile_Left = new int[2];
+            SelectedTile_Right = new int[2];
+
+            SelectedTile_Left[0] = -1;
+            SelectedTile_Left[1] = -1;
+            SelectedTile_Right[0] = -1;
+            SelectedTile_Right[1] = -1;
+
+            Map = new MapTile[ProjectData.Height, ProjectData.Width];
+            for (int y = 0; y < ProjectData.Height; y++) {
+                for (int x = 0; x < ProjectData.Width; x++) {
+                    Map[y, x] = new MapTile(ProjectData.Layers);
+                    for (int l = 0; l < ProjectData.Layers; l++)
+                        Map[y, x].Id[l] = 0;
+                }
+            }
+
+            if (File.Exists(ProjectData.Path + "Map/L0.vcmf")) {
+                for (int l = 0; l < ProjectData.Layers; l++) {
+                    using (StreamReader sw = new StreamReader(new FileStream(ProjectData.Path + "Map/L" + l + ".vcmf", FileMode.Open))) {
+                        for (int y = 0; y < ProjectData.Height; y++) {
+                            string[] line = sw.ReadLine().Split(' ');
+                            for (int x = 0; x < ProjectData.Width; x++) {
+                                Map[y, x].Id[l] = int.Parse(line[x]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            ToolStripMenuItem[] items = new ToolStripMenuItem[ProjectData.Layers];
+            for (int i = 0; i < items.Length; i++) {
+                Layer_Selector_MC.Items.Add(i.ToString());
+            }
+
+            ToolBoxBitmap = new Bitmap(500, 1000);
+            ToolBoxGraphics = Graphics.FromImage(ToolBoxBitmap);
+            MapBitmap = new Bitmap(1920, 1080);
+            MapGraphics = Graphics.FromImage(MapBitmap);
+            MapCounterBitmap = new Bitmap(1820, 1000);
+            MapCounterGraphics = Graphics.FromImage(MapCounterBitmap);
+
+            this.Text += " - " + ProjectData.Name;
+        }
+
+        private bool IsInView(int P, int W, int ElementSize) {
+
+            if ((P * MapSizeZoom) + W + 100 >= 0 &&
+             (((P * MapSizeZoom) + W) <= (ElementSize + MapSizeZoom))) return true;
+
+            return false;
+        }
+
+        private void UpdateView() {
+
+
+            Pen pen = new Pen(Color.Black, 1);
+            Brush brush = new SolidBrush(Map_View_Panel_MC.BackColor);
+            Font drawFont = new Font("Arial", 12);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+
+            int PanelScrolX = Map_Counter_Panel_MC.AutoScrollPosition.X;
+            int PanelScrolY = Map_Counter_Panel_MC.AutoScrollPosition.Y;
+
+            if (NumerowanieLinii) {
+                for (int x = 0; x < ProjectData.Width; x++) {
+                    if (IsInView(x, PanelScrolX, Map_View_Panel_MC.Width))
+                        MapCounterGraphics.DrawString(x.ToString(), drawFont, drawBrush, (MapSizeZoom * (x + 1)) - (MapSizeZoom / 2) + PanelScrolX + 30, 5);
+                }
+            }
+
+            for (int y = 0; y < ProjectData.Height; y++) {
+                for (int x = 0; x < ProjectData.Width; x++) {
+
+                    if (IsInView(x, PanelScrolX, Map_View_Panel_MC.Width) && IsInView(y, PanelScrolY, Map_View_Panel_MC.Height)) {
+                        for (int l = 0; l < ProjectData.Layers; l++)
+                            if (Map[y, x].Id[l] != 0)
+                                MapGraphics.DrawImage(
+                                    ProjectData.GetBitmap(l, Map[y, x].Id[l]),
+                                    (x * MapSizeZoom) + PanelScrolX,
+                                    (y * MapSizeZoom) + PanelScrolY,
+                                    MapSizeZoom,
+                                    MapSizeZoom);
+
+                        if (LinieSiatki)
+                            MapGraphics.DrawRectangle(pen, (x * MapSizeZoom) + PanelScrolX, (y * MapSizeZoom) + PanelScrolY, MapSizeZoom, MapSizeZoom);
+                    }
+                }
+                if (NumerowanieLinii) {
+                    if (IsInView(y, PanelScrolY, Map_View_Panel_MC.Height))
+                        MapCounterGraphics.DrawString(y.ToString(), drawFont, drawBrush, 5, (MapSizeZoom * (y + 1)) - (MapSizeZoom / 2) - 10 + PanelScrolY + 35);
+
+                }
+            }
+
+            drawFont.Dispose();
+            drawBrush.Dispose();
+            pen.Dispose();
+            brush.Dispose();
+
+            Map_View_Panel_MC.CreateGraphics().DrawImage(MapBitmap, 0, 0);
+            Map_Counter_Panel_MC.CreateGraphics().DrawImage(MapCounterBitmap, 0, 0);
+
+            MapGraphics.Clear(Map_View_Panel_MC.BackColor);
+            MapCounterGraphics.Clear(Map_Counter_Panel_MC.BackColor);
+
+
+            int _x = 0, _y = 0;
+            foreach (Tile T in ProjectData.Bitmaps[ActiveLayer]) {
+                if (T.Layer == ActiveLayer) {
+
+                    ToolBoxGraphics.DrawImage(T.Texture, 40 + (_x * 60), (20 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 50, 50);
+
+                    if (SelectedTile_Left[0] != -1)
+                        if (T.Layer == SelectedTile_Left[0] && T.Id == SelectedTile_Left[1]) {
+                            ToolBoxGraphics.DrawRectangle(new Pen(Color.Black, 2), 38 + (_x * 60), (18 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 52, 52);
+                        }
+                    if (SelectedTile_Right[0] != -1)
+                        if (T.Layer == SelectedTile_Right[0] && T.Id == SelectedTile_Right[1]) {
+                            ToolBoxGraphics.DrawRectangle(new Pen(Color.Red, 2), 38 + (_x * 60), (18 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 52, 52);
+                        }
+
+                    if (++_x % 2 == 0) {
+                        _y++;
+                        _x = 0;
+                    }
+
+                }
+            }
+            Map_Counter_Panel_MC.AutoScrollMinSize = new Size((MapSizeZoom * ProjectData.Width) + MapSizeZoom, (MapSizeZoom * ProjectData.Height) + MapSizeZoom);
+
+            Tool_Box_Panel_MC.CreateGraphics().DrawImage(ToolBoxBitmap, 0, 0);
+            ToolBoxGraphics.Clear(Tool_Box_Panel_MC.BackColor);
+        }
+
+        private void SelectingTile(object sender, MouseEventArgs e) {
+            int x = 0, y = 0;
+            Rectangle TileBtn;
+
+            foreach (Tile T in ProjectData.Bitmaps[ActiveLayer]) {
+                TileBtn = new Rectangle(38 + (x * 60), (18 + (y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 50, 50);
+
+                if (TileBtn.Contains(e.Location)) {
+                    if (e.Button == MouseButtons.Left) {
+                        SelectedTile_Left[0] = T.Layer;
+                        SelectedTile_Left[1] = T.Id;
+                    } else if (e.Button == MouseButtons.Right) {
+                        SelectedTile_Right[0] = T.Layer;
+                        SelectedTile_Right[1] = T.Id;
+                    }
+
+                    UpdateView();
+                    break;
+                }
+
+                if (++x % 2 == 0) {
+                    y++;
+                    x = 0;
+                }
+
+
+
+
+            }
+        }
+
+        /// <summary>
+        ///  Update view
+        /// </summary>
+        private void MapCreator_Paint(object sender, PaintEventArgs e) { UpdateView(); }
+
+        private void Map_Counter_Panel_MC_Scroll(object sender, ScrollEventArgs e) { UpdateView(); }
+
+        private void Map_View_Panel_MC_MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right || e.Button == MouseButtons.Middle) {
+                int a = Map_Counter_Panel_MC.AutoScrollPosition.X;
+                int b = Map_Counter_Panel_MC.AutoScrollPosition.Y;
+
+                int X = (e.Location.X - a) / MapSizeZoom;
+                int Y = (e.Location.Y - b) / MapSizeZoom;
+
+                if (X >= 0 && X < ProjectData.Width && Y >= 0 && Y < ProjectData.Height) {
+                    if (e.Button == MouseButtons.Left) {
+                        if (SelectedTile_Left[0] != -1) {
+                            for (int sx = -PenSize; sx <= PenSize; sx++) {
+                                for (int sy = -PenSize; sy <= PenSize; sy++) {
+                                    if (SelectedTile_Left[0] == ActiveLayer) {
+                                        if (Y + sy >= 0 && Y + sy < ProjectData.Height) {
+                                            if (X + sx >= 0 && X + sx < ProjectData.Width) {
+                                                Map[Y + sy, X + sx].Id[SelectedTile_Left[0]] = SelectedTile_Left[1];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    } else if (e.Button == MouseButtons.Right) {
+                        if (SelectedTile_Right[0] != -1) {
+                            for (int sx = -PenSize; sx <= PenSize; sx++) {
+                                for (int sy = -PenSize; sy <= PenSize; sy++) {
+                                    if (SelectedTile_Right[0] == ActiveLayer) {
+                                        if (Y + sy >= 0 && Y + sy < ProjectData.Height) {
+                                            if (X + sx >= 0 && X + sx < ProjectData.Width) {
+                                                Map[Y, X].Id[SelectedTile_Right[0]] = SelectedTile_Right[1];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                UpdateView();
+            }
+        }
+
+        private void Zoom_Selector_MC_SelectedIndexChanged(object sender, EventArgs e) {
+            int zoomVal = 0;
+            if (int.TryParse(Zoom_Selector_MC.Text, out zoomVal))
+                MapSizeZoom = zoomVal;
+            UpdateView();
+        }
+
+        private void Layer_Selector_MC_SelectedIndexChanged(object sender, EventArgs e) {
+            int layerVal = 0;
+            if (int.TryParse(Layer_Selector_MC.Text, out layerVal))
+                ActiveLayer = layerVal;
+            UpdateView();
+        }
+
+        private void Pen_Size_Selector_MC_SelectedIndexChanged(object sender, EventArgs e) {
+            int sizeVal = 0;
+            if (int.TryParse(Pen_Size_Selector_MC.Text, out sizeVal))
+                PenSize = sizeVal;
+            UpdateView();
+        }
+
+        private void MapCreator_Load(object sender, EventArgs e) { UpdateView(); }
+
+        private void zapiszToolStripMenuItem_Click(object sender, EventArgs e) {
+            SaveMapProject();
+        }
+
+        private void oProgramieToolStripMenuItem_Click(object sender, EventArgs e) {
+            MessageBox.Show("\tInformacje\n\tKreator/edytor map\n\tSekcja5\n\tAll rights reserved 2017");
+        }
+
+        private void MapCreator_FormClosing(object sender, FormClosingEventArgs e) {
+            DialogResult result = MessageBox.Show("Czy zapisać projekt?", "Zamykanie", MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Yes) {
+                SaveMapProject();
+
+            } else if (result == DialogResult.Cancel) {
+                e.Cancel = true;
+                this.Activate();
+            }
+        }
+
+        private void wyjścieToolStripMenuItem_Click(object sender, EventArgs e) {
+            this.Close();
+        }
+
+        private void SaveMapProject() {
+            for (int l = 0; l < ProjectData.Layers; l++) {
+                using (StreamWriter sw = new StreamWriter(new FileStream(ProjectData.Path + "/Map/L" + l + ".vcmf", FileMode.Create))) {
+                    for (int y = 0; y < ProjectData.Height; y++) {
+                        for (int x = 0; x < ProjectData.Width; x++) {
+                            sw.Write(Map[y, x].Id[l] + " ");
+                        }
+                        sw.WriteLine();
+                    }
+                }
+            }
+        }
+
+        private void przełaczNumerowanieLiniiToolStripMenuItem_Click(object sender, EventArgs e) {
+            NumerowanieLinii = !NumerowanieLinii;
+            UpdateView();
+        }
+
+        private void wyłaczLinieSiatkiToolStripMenuItem_Click(object sender, EventArgs e) {
+            LinieSiatki = !LinieSiatki;
+            UpdateView();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if (keyData == (Keys.Control | Keys.A)) {
+                if (SelectedTile_Left != null)
+                    if (SelectedTile_Left[0] == ActiveLayer)
+                        for (int y = 0; y < ProjectData.Height; y++) {
+                            for (int x = 0; x < ProjectData.Width; x++) {
+                                Map[y, x].Id[ActiveLayer] = SelectedTile_Left[1];
+                            }
+                        }
+                UpdateView();
+                return true;
+            } else if (keyData == (Keys.Alt | Keys.A)) {
+                if (SelectedTile_Right != null)
+                    if (SelectedTile_Right[0] == ActiveLayer)
+                        for (int y = 0; y < ProjectData.Height; y++) {
+                            for (int x = 0; x < ProjectData.Width; x++) {
+                                Map[y, x].Id[ActiveLayer] = SelectedTile_Right[1];
+                            }
+                        }
+                UpdateView();
+                return true;
+            } else if (keyData == (Keys.Control | Keys.S)) {
+                SaveMapProject();
+                return true;
+            } else if (keyData == (Keys.Control | Keys.Z)) {
+                wyłaczLinieSiatkiToolStripMenuItem_Click(null, null);
+                return true;
+            } else if (keyData == (Keys.Control | Keys.X)) {
+                przełaczNumerowanieLiniiToolStripMenuItem_Click(null, null);
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+    }
+}
