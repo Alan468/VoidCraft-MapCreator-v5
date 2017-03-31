@@ -137,7 +137,7 @@ namespace VoidCraft_MapCreator_v5 {
                         string BmpPath = lineArr[3];
 
 
-                        ProjectData.Bitmaps[Layer].Add(new Tile(Name, Layer, Id, BmpPath));
+                        ProjectData.Bitmaps[Layer].Add(new Tile(Name, Layer, Id, Path+BmpPath));
                     }
                 }
             } catch (ArgumentNullException ex) {
@@ -176,8 +176,8 @@ namespace VoidCraft_MapCreator_v5 {
             if (result == DialogResult.OK) {
                 string Directory = FileDialog.FileName;
                 string name = Directory.Split('\\').Last().Split('.').First();
-                string path = Directory; ;
-                ProjectData.Bitmaps[Layer].Add(new Tile(name, Layer, Id, path));
+                string path = "Texture\\L"+Layer+"\\"+ Directory.Split('\\').Last();
+                ProjectData.Bitmaps[Layer].Add(new Tile(name, Layer, Id, Directory));
                 Layers_Id_Selector_SC.Value++;
             }
 
