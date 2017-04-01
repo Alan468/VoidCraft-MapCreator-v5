@@ -14,6 +14,8 @@ namespace VoidCraft_MapCreator_v5 {
         private Bitmap MapBitmap;
         private Graphics MapCounterGraphics;
         private Bitmap MapCounterBitmap;
+        Graphics SelectionGraphics;
+        Bitmap SelectionBitMap;
 
         private int ActiveLayer;
         private int[] SelectedTile_Left, SelectedTile_Right;//0 Layer ,1 id
@@ -23,7 +25,8 @@ namespace VoidCraft_MapCreator_v5 {
         private int PenSize;
         bool LinieSiatki, NumerowanieLinii;
         public bool RestartApp { get; set; }
-
+        private bool AutomaticRefres = true;
+        private bool PaintAreaSelector = true;
 
         public MapCreator(string projectFile) {
             this.InitializeComponent();
@@ -76,6 +79,8 @@ namespace VoidCraft_MapCreator_v5 {
             MapGraphics = Graphics.FromImage(MapBitmap);
             MapCounterBitmap = new Bitmap(1820, 1000);
             MapCounterGraphics = Graphics.FromImage(MapCounterBitmap);
+            SelectionBitMap = new Bitmap(1920, 1080);
+            SelectionGraphics = Graphics.FromImage(SelectionBitMap);
 
             this.Text += " - " + ProjectData.Name;
         }
@@ -83,13 +88,12 @@ namespace VoidCraft_MapCreator_v5 {
         private bool IsInView(int P, int W, int ElementSize) {
 
             if ((P * MapSizeZoom) + W + MapSizeZoom >= 0 &&
-             (((P * MapSizeZoom) + W) <= (ElementSize ))) return true;
+             (((P * MapSizeZoom) + W) <= (ElementSize))) return true;
 
             return false;
         }
 
         private void UpdateView() {
-
 
             Pen pen = new Pen(Color.Black, 1);
             Brush brush = new SolidBrush(Map_View_Panel_MC.BackColor);
@@ -132,6 +136,24 @@ namespace VoidCraft_MapCreator_v5 {
             drawBrush.Dispose();
             pen.Dispose();
             brush.Dispose();
+
+            /////////////////////////////
+            if (PaintAreaSelector) {
+                pen = new Pen(Color.Black, 3);
+
+                int X = (Map_View_Panel_MC.PointToClient(Cursor.Position).X - PanelScrolX) / MapSizeZoom;
+                int Y = (Map_View_Panel_MC.PointToClient(Cursor.Position).Y - PanelScrolY) / MapSizeZoom;
+
+                MapGraphics.DrawRectangle(pen,
+                    ((X - PenSize) * MapSizeZoom) + PanelScrolX,
+                    ((Y - PenSize) * MapSizeZoom) + PanelScrolY,
+                    (((2 * PenSize) + 1) * MapSizeZoom),
+                    (((2 * PenSize) + 1) * MapSizeZoom)
+                    );
+
+                pen.Dispose();
+            }
+            //////////////////////////////
 
             Map_View_Panel_MC.CreateGraphics().DrawImage(MapBitmap, 0, 0);
             Map_Counter_Panel_MC.CreateGraphics().DrawImage(MapCounterBitmap, 0, 0);
@@ -193,27 +215,20 @@ namespace VoidCraft_MapCreator_v5 {
                     x = 0;
                 }
 
-
-
-
             }
         }
 
-        /// <summary>
-        ///  Update view
-        /// </summary>
-        private void MapCreator_Paint(object sender, PaintEventArgs e) { UpdateView(); }
+        private void MapCreator_Paint(object sender, PaintEventArgs e) { if (AutomaticRefres) UpdateView(); }
 
         private void Map_Counter_Panel_MC_Scroll(object sender, ScrollEventArgs e) { UpdateView(); }
 
         private void Map_View_Panel_MC_MouseDown(object sender, MouseEventArgs e) {
+            int a = Map_Counter_Panel_MC.AutoScrollPosition.X;
+            int b = Map_Counter_Panel_MC.AutoScrollPosition.Y;
+            int X = (e.Location.X - a) / MapSizeZoom;
+            int Y = (e.Location.Y - b) / MapSizeZoom;
+
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right || e.Button == MouseButtons.Middle) {
-                int a = Map_Counter_Panel_MC.AutoScrollPosition.X;
-                int b = Map_Counter_Panel_MC.AutoScrollPosition.Y;
-
-                int X = (e.Location.X - a) / MapSizeZoom;
-                int Y = (e.Location.Y - b) / MapSizeZoom;
-
                 if (X >= 0 && X < ProjectData.Width && Y >= 0 && Y < ProjectData.Height) {
                     if (e.Button == MouseButtons.Left) {
                         if (SelectedTile_Left[0] != -1) {
@@ -244,18 +259,36 @@ namespace VoidCraft_MapCreator_v5 {
                                 }
                             }
                         }
-                    }
+                    } else if (e.Button == MouseButtons.Middle) {
+                        if (SelectedTile_Right[0] != -1 && SelectedTile_Left[0] != -1) {
 
+                            for (int sx = -PenSize; sx < PenSize; sx += 2) {
+                                for (int sy = -PenSize; sy <= PenSize; sy += 2) {
+
+                                    if (SelectedTile_Right[0] == ActiveLayer && SelectedTile_Left[0] == ActiveLayer) {
+                                        if (Y + sy >= 0 && Y + sy < ProjectData.Height) {
+                                            if (X + sx >= 0 && X + sx < ProjectData.Width) {
+                                                Map[Y + sy, X + sx].Id[SelectedTile_Left[0]] = SelectedTile_Left[1];
+                                                Map[Y + sy, X + sx + 1].Id[SelectedTile_Right[0]] = SelectedTile_Right[1];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
-                UpdateView();
             }
+            if (AutomaticRefres) UpdateView();
+
         }
 
         private void Zoom_Selector_MC_SelectedIndexChanged(object sender, EventArgs e) {
             int zoomVal = 0;
             if (int.TryParse(Zoom_Selector_MC.Text, out zoomVal))
                 MapSizeZoom = zoomVal;
+            Map_View_Panel_MC.Focus();
             UpdateView();
         }
 
@@ -263,6 +296,7 @@ namespace VoidCraft_MapCreator_v5 {
             int layerVal = 0;
             if (int.TryParse(Layer_Selector_MC.Text, out layerVal))
                 ActiveLayer = layerVal;
+            Map_View_Panel_MC.Focus();
             UpdateView();
         }
 
@@ -270,6 +304,7 @@ namespace VoidCraft_MapCreator_v5 {
             int sizeVal = 0;
             if (int.TryParse(Pen_Size_Selector_MC.Text, out sizeVal))
                 PenSize = sizeVal;
+            Map_View_Panel_MC.Focus();
             UpdateView();
         }
 
@@ -328,6 +363,18 @@ namespace VoidCraft_MapCreator_v5 {
             this.Close();
         }
 
+        private void odświeżToolStripMenuItem_Click(object sender, EventArgs e) {
+            UpdateView();
+        }
+
+        private void przełaczAutomatyczneOdświeżanieToolStripMenuItem_Click(object sender, EventArgs e) {
+            AutomaticRefres = !AutomaticRefres;
+        }
+
+        private void przełaczWskaźnikObszaruToolStripMenuItem_Click(object sender, EventArgs e) {
+            PaintAreaSelector = !PaintAreaSelector;
+            UpdateView();
+        }
 
         private void wyłaczLinieSiatkiToolStripMenuItem_Click(object sender, EventArgs e) {
             LinieSiatki = !LinieSiatki;
@@ -335,7 +382,7 @@ namespace VoidCraft_MapCreator_v5 {
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
-            if (keyData == (Keys.Control | Keys.A)) {
+            if (keyData == (Keys.Control | Keys.A)) { // Wklejenie na calej mapie tekstury wybranej LPM
                 if (SelectedTile_Left != null)
                     if (SelectedTile_Left[0] == ActiveLayer)
                         for (int y = 0; y < ProjectData.Height; y++) {
@@ -345,7 +392,7 @@ namespace VoidCraft_MapCreator_v5 {
                         }
                 UpdateView();
                 return true;
-            } else if (keyData == (Keys.Alt | Keys.A)) {
+            } else if (keyData == (Keys.Alt | Keys.A)) {// Wklejenie na calej mapie tekstury wybranej PPM
                 if (SelectedTile_Right != null)
                     if (SelectedTile_Right[0] == ActiveLayer)
                         for (int y = 0; y < ProjectData.Height; y++) {
@@ -355,16 +402,49 @@ namespace VoidCraft_MapCreator_v5 {
                         }
                 UpdateView();
                 return true;
-            } else if (keyData == (Keys.Control | Keys.S)) {
+            } else if (keyData == (Keys.Control | Keys.S)) { // Zapis projektu
                 ProjectData.SaveProjectMap(Map);
                 return true;
-            } else if (keyData == (Keys.Control | Keys.Z)) {
+            } else if (keyData == (Keys.Control | Keys.Z)) { // Przelaczenie lini siatki
                 wyłaczLinieSiatkiToolStripMenuItem_Click(null, null);
                 return true;
-            } else if (keyData == (Keys.Control | Keys.X)) {
+            } else if (keyData == (Keys.Control | Keys.X)) { // Przelaczenie numeracji lini
                 przełaczNumerowanieLiniiToolStripMenuItem_Click(null, null);
                 return true;
-            }
+            } else if (keyData == (Keys.Control | Keys.C)) { // Przelaczenie wskaznika obszaru
+                przełaczWskaźnikObszaruToolStripMenuItem_Click(null, null);
+                return true;
+            } else if (keyData == (Keys.Control | Keys.Space)) { // Przelaczenie automatycznego odswiezania
+                przełaczAutomatyczneOdświeżanieToolStripMenuItem_Click(null, null);
+                return true;
+            } else if (keyData == (Keys.Space)) { // Wymuszenie odswiezenia
+                UpdateView();
+                return true;
+            } else if (keyData == (Keys.Q)) { // Zoom +
+                if (Zoom_Selector_MC.SelectedIndex < 19) {
+                    Zoom_Selector_MC.SelectedIndex += 1;
+                    Zoom_Selector_MC_SelectedIndexChanged(null, null);
+                }
+                return true;
+            } else if (keyData == (Keys.W)) { // Zoom -
+                if (Zoom_Selector_MC.SelectedIndex > 0) {
+                    Zoom_Selector_MC.SelectedIndex -= 1;
+                    Zoom_Selector_MC_SelectedIndexChanged(null, null);
+                }
+                return true;
+            } else if (keyData == (Keys.D)) { // Zmiana aktywnej warstwy +
+                if (Layer_Selector_MC.SelectedIndex < ProjectData.Layers - 1) {
+                    Layer_Selector_MC.SelectedIndex += 1;
+                    Layer_Selector_MC_SelectedIndexChanged(null, null);
+                }
+                return true;
+            } else if (keyData == (Keys.F)) { // Zmiana aktywnej warstwy -
+                if (Layer_Selector_MC.SelectedIndex > 0) {
+                    Layer_Selector_MC.SelectedIndex -= 1;
+                    Layer_Selector_MC_SelectedIndexChanged(null, null);
+                }
+                return true;
+            } 
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }

@@ -38,6 +38,7 @@
             this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wyłaczLinieSiatkiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.przełaczNumerowanieLiniiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.przelaczAutomatyczneOdswiezanieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informacjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +49,8 @@
             this.Zoom_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
             this.Pen_Size_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
+            this.odświeżToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.przełaczWskaźnikObszaruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -113,10 +116,11 @@
             this.toolStripTextBox2,
             this.Zoom_Selector_MC,
             this.toolStripTextBox3,
-            this.Pen_Size_Selector_MC});
+            this.Pen_Size_Selector_MC,
+            this.odświeżToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(889, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(860, 27);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -170,7 +174,9 @@
             // 
             this.widokToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.wyłaczLinieSiatkiToolStripMenuItem,
-            this.przełaczNumerowanieLiniiToolStripMenuItem});
+            this.przełaczNumerowanieLiniiToolStripMenuItem,
+            this.przelaczAutomatyczneOdswiezanieToolStripMenuItem,
+            this.przełaczWskaźnikObszaruToolStripMenuItem});
             this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
             this.widokToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.widokToolStripMenuItem.Text = "Widok";
@@ -178,16 +184,23 @@
             // wyłaczLinieSiatkiToolStripMenuItem
             // 
             this.wyłaczLinieSiatkiToolStripMenuItem.Name = "wyłaczLinieSiatkiToolStripMenuItem";
-            this.wyłaczLinieSiatkiToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.wyłaczLinieSiatkiToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
             this.wyłaczLinieSiatkiToolStripMenuItem.Text = "Przełacz linie siatki";
             this.wyłaczLinieSiatkiToolStripMenuItem.Click += new System.EventHandler(this.wyłaczLinieSiatkiToolStripMenuItem_Click);
             // 
             // przełaczNumerowanieLiniiToolStripMenuItem
             // 
             this.przełaczNumerowanieLiniiToolStripMenuItem.Name = "przełaczNumerowanieLiniiToolStripMenuItem";
-            this.przełaczNumerowanieLiniiToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.przełaczNumerowanieLiniiToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
             this.przełaczNumerowanieLiniiToolStripMenuItem.Text = "Przełacz numerowanie linii";
             this.przełaczNumerowanieLiniiToolStripMenuItem.Click += new System.EventHandler(this.przełaczNumerowanieLiniiToolStripMenuItem_Click);
+            // 
+            // przelaczAutomatyczneOdswiezanieToolStripMenuItem
+            // 
+            this.przelaczAutomatyczneOdswiezanieToolStripMenuItem.Name = "przelaczAutomatyczneOdswiezanieToolStripMenuItem";
+            this.przelaczAutomatyczneOdswiezanieToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.przelaczAutomatyczneOdswiezanieToolStripMenuItem.Text = "Przełacz automatyczne odświeżanie";
+            this.przelaczAutomatyczneOdswiezanieToolStripMenuItem.Click += new System.EventHandler(this.przełaczAutomatyczneOdświeżanieToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -289,6 +302,20 @@
             this.Pen_Size_Selector_MC.Text = "0";
             this.Pen_Size_Selector_MC.SelectedIndexChanged += new System.EventHandler(this.Pen_Size_Selector_MC_SelectedIndexChanged);
             // 
+            // odświeżToolStripMenuItem
+            // 
+            this.odświeżToolStripMenuItem.Name = "odświeżToolStripMenuItem";
+            this.odświeżToolStripMenuItem.Size = new System.Drawing.Size(63, 23);
+            this.odświeżToolStripMenuItem.Text = "Odśwież";
+            this.odświeżToolStripMenuItem.Click += new System.EventHandler(this.odświeżToolStripMenuItem_Click);
+            // 
+            // przełaczWskaźnikObszaruToolStripMenuItem
+            // 
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Name = "przełaczWskaźnikObszaruToolStripMenuItem";
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Text = "Przełacz wskaźnik obszaru";
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Click += new System.EventHandler(this.przełaczWskaźnikObszaruToolStripMenuItem_Click);
+            // 
             // MapCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -346,5 +373,8 @@
         private System.Windows.Forms.ToolStripMenuItem nowyProjektToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dodajTekstureToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem przelaczAutomatyczneOdswiezanieToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem odświeżToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem przełaczWskaźnikObszaruToolStripMenuItem;
     }
 }
