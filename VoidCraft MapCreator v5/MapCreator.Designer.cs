@@ -39,6 +39,7 @@
             this.wyłaczLinieSiatkiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.przełaczNumerowanieLiniiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.przelaczAutomatyczneOdswiezanieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.przełaczWskaźnikObszaruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.wyjścieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informacjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,6 @@
             this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
             this.Pen_Size_Selector_MC = new System.Windows.Forms.ToolStripComboBox();
             this.odświeżToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.przełaczWskaźnikObszaruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +66,7 @@
             this.Tool_Box_Panel_MC.Name = "Tool_Box_Panel_MC";
             this.Tool_Box_Panel_MC.Size = new System.Drawing.Size(200, 522);
             this.Tool_Box_Panel_MC.TabIndex = 0;
+            this.Tool_Box_Panel_MC.Paint += new System.Windows.Forms.PaintEventHandler(this.MapCreator_Paint);
             this.Tool_Box_Panel_MC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SelectingTile);
             // 
             // Map_View_Panel_MC
@@ -202,6 +203,13 @@
             this.przelaczAutomatyczneOdswiezanieToolStripMenuItem.Text = "Przełacz automatyczne odświeżanie";
             this.przelaczAutomatyczneOdswiezanieToolStripMenuItem.Click += new System.EventHandler(this.przełaczAutomatyczneOdświeżanieToolStripMenuItem_Click);
             // 
+            // przełaczWskaźnikObszaruToolStripMenuItem
+            // 
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Name = "przełaczWskaźnikObszaruToolStripMenuItem";
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Text = "Przełacz wskaźnik obszaru";
+            this.przełaczWskaźnikObszaruToolStripMenuItem.Click += new System.EventHandler(this.przełaczWskaźnikObszaruToolStripMenuItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -308,13 +316,6 @@
             this.odświeżToolStripMenuItem.Size = new System.Drawing.Size(63, 23);
             this.odświeżToolStripMenuItem.Text = "Odśwież";
             this.odświeżToolStripMenuItem.Click += new System.EventHandler(this.odświeżToolStripMenuItem_Click);
-            // 
-            // przełaczWskaźnikObszaruToolStripMenuItem
-            // 
-            this.przełaczWskaźnikObszaruToolStripMenuItem.Name = "przełaczWskaźnikObszaruToolStripMenuItem";
-            this.przełaczWskaźnikObszaruToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
-            this.przełaczWskaźnikObszaruToolStripMenuItem.Text = "Przełacz wskaźnik obszaru";
-            this.przełaczWskaźnikObszaruToolStripMenuItem.Click += new System.EventHandler(this.przełaczWskaźnikObszaruToolStripMenuItem_Click);
             // 
             // MapCreator
             // 

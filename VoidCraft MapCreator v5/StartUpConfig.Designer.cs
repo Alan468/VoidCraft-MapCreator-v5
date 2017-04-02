@@ -61,6 +61,7 @@
             this.DataGrid_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Layers_Ok_SC = new System.Windows.Forms.Button();
             this.Layers_Back_SC = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
             this.NewLoad_Panel_SC.SuspendLayout();
             this.NewProject_Panel_SC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NewProject_Input_Layers_SC)).BeginInit();
@@ -326,6 +327,7 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.Layers_Id_Selector_SC);
             this.panel2.Controls.Add(this.Layers_Layer_Selector_SC);
@@ -367,6 +369,7 @@
             this.Layers_Layer_Selector_SC.Name = "Layers_Layer_Selector_SC";
             this.Layers_Layer_Selector_SC.Size = new System.Drawing.Size(120, 20);
             this.Layers_Layer_Selector_SC.TabIndex = 5;
+            this.Layers_Layer_Selector_SC.ValueChanged += new System.EventHandler(this.Layers_Layer_Selector_SC_ValueChanged);
             // 
             // label10
             // 
@@ -494,6 +497,16 @@
             this.Layers_Back_SC.UseVisualStyleBackColor = true;
             this.Layers_Back_SC.Click += new System.EventHandler(this.Layers_Back_SC_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.ForeColor = System.Drawing.Color.DarkRed;
+            this.label12.Location = new System.Drawing.Point(3, 50);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(298, 13);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "ID muszą być w kolejności ,bez przerw w kolejności numeracji";
+            // 
             // StartUpConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -565,6 +578,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGrid_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGrid_Path;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
     }
 }
 

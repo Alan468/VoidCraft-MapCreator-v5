@@ -75,6 +75,9 @@ namespace VoidCraft_MapCreator_v5 {
             //save vctl
             using (StreamWriter sw = new StreamWriter(new FileStream(ProjectData.Path + "/texturelist.vctl", FileMode.Create))) {
                 for (int i = 0; i < ProjectData.Layers; i++) {
+
+                    ProjectData.Bitmaps[i] = Bitmaps[i].OrderBy(o => o.Id).ToList();
+
                     foreach (Tile B in ProjectData.Bitmaps[i]) {
                         sw.WriteLine(B.Layer + " " + B.Id + " " + B.Name + " Textures/L"+i+"/" + B.Path.Split('\\').Last().Split('/').Last());
                     }

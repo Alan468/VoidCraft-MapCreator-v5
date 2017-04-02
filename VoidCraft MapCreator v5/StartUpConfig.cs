@@ -163,24 +163,37 @@ namespace VoidCraft_MapCreator_v5 {
             int Layer = ((int)Layers_Layer_Selector_SC.Value);
             int Id = (int)Layers_Id_Selector_SC.Value;
 
-            if (ProjectData.Contain(Layer, Id)) {
-                MessageBox.Show("Duplikat id w warstwie " + (int)Layers_Layer_Selector_SC.Value + "!");
-                return;
-            }
+            //if (ProjectData.Contain(Layer, Id)) {
+            //    MessageBox.Show("Duplikat id w warstwie " + (int)Layers_Layer_Selector_SC.Value + "!");
+            //    return;
+            //}
 
             OpenFileDialog FileDialog = new OpenFileDialog();
             FileDialog.Filter = "Image Files (JPG,PNG,BMP)|*.JPG;*.PNG;*.BMP";
+            FileDialog.Multiselect = true;
 
             DialogResult result = FileDialog.ShowDialog();
 
             if (result == DialogResult.OK) {
-                string Directory = FileDialog.FileName;
-                string name = Directory.Split('\\').Last().Split('.').First();
-                string path = "Texture\\L"+Layer+"\\"+ Directory.Split('\\').Last();
-                ProjectData.Bitmaps[Layer].Add(new Tile(name, Layer, Id, Directory));
-                Layers_Id_Selector_SC.Value++;
-            }
 
+                string[] FileNames = FileDialog.FileNames;
+
+                foreach(string Dir in FileNames){
+
+                    while (ProjectData.Contain(Layer, (int)Layers_Id_Selector_SC.Value)) {
+                        Layers_Id_Selector_SC.Value++;
+                    }
+
+                    Id = (int)Layers_Id_Selector_SC.Value;
+                    string Directory = Dir;
+                    string name = Directory.Split('\\').Last().Split('.').First();
+                    string path = "Texture\\L" + Layer + "\\" + Directory.Split('\\').Last();
+                    ProjectData.Bitmaps[Layer].Add(new Tile(name, Layer, Id, Directory));
+
+                    
+                }
+            }
+            Layers_Id_Selector_SC.Value = 0;
             UpdateDataGridView();
         }
 
@@ -222,7 +235,8 @@ namespace VoidCraft_MapCreator_v5 {
 
         }
 
-
-        
+        private void Layers_Layer_Selector_SC_ValueChanged(object sender, EventArgs e) {
+            Layers_Id_Selector_SC.Value = 0;
+        }
     }
 }

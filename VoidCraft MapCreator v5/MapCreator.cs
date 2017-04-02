@@ -73,7 +73,7 @@ namespace VoidCraft_MapCreator_v5 {
                 Layer_Selector_MC.Items.Add(i.ToString());
             }
 
-            ToolBoxBitmap = new Bitmap(500, 1000);
+            ToolBoxBitmap = new Bitmap(500, 1500);
             ToolBoxGraphics = Graphics.FromImage(ToolBoxBitmap);
             MapBitmap = new Bitmap(1920, 1080);
             MapGraphics = Graphics.FromImage(MapBitmap);
@@ -166,28 +166,39 @@ namespace VoidCraft_MapCreator_v5 {
             foreach (Tile T in ProjectData.Bitmaps[ActiveLayer]) {
                 if (T.Layer == ActiveLayer) {
 
-                    ToolBoxGraphics.DrawImage(T.Texture, 40 + (_x * 60), (20 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 50, 50);
+                    if ((20 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y > -50) {
+                        if ((20 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y < Tool_Box_Panel_MC.Height + 50) {
+                            ToolBoxGraphics.DrawImage(T.Texture, 40 + (_x * 60), (20 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 50, 50);
 
-                    if (SelectedTile_Left[0] != -1)
-                        if (T.Layer == SelectedTile_Left[0] && T.Id == SelectedTile_Left[1]) {
-                            ToolBoxGraphics.DrawRectangle(new Pen(Color.Black, 2), 38 + (_x * 60), (18 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 52, 52);
-                        }
-                    if (SelectedTile_Right[0] != -1)
-                        if (T.Layer == SelectedTile_Right[0] && T.Id == SelectedTile_Right[1]) {
-                            ToolBoxGraphics.DrawRectangle(new Pen(Color.Red, 2), 38 + (_x * 60), (18 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 52, 52);
-                        }
+                            if (SelectedTile_Left[0] != -1)
+                                if (T.Layer == SelectedTile_Left[0] && T.Id == SelectedTile_Left[1]) {
+                                    ToolBoxGraphics.DrawRectangle(new Pen(Color.Black, 2), 38 + (_x * 60), (18 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 52, 52);
+                                }
+                            if (SelectedTile_Right[0] != -1)
+                                if (T.Layer == SelectedTile_Right[0] && T.Id == SelectedTile_Right[1]) {
+                                    ToolBoxGraphics.DrawRectangle(new Pen(Color.Red, 2), 38 + (_x * 60), (18 + (_y * 60)) + Tool_Box_Panel_MC.AutoScrollPosition.Y, 52, 52);
+                                }
 
+                            
+                        }
+                    }
                     if (++_x % 2 == 0) {
                         _y++;
                         _x = 0;
                     }
-
                 }
             }
             Map_Counter_Panel_MC.AutoScrollMinSize = new Size((MapSizeZoom * ProjectData.Width) + MapSizeZoom, (MapSizeZoom * ProjectData.Height) + MapSizeZoom);
 
+            
+
             Tool_Box_Panel_MC.CreateGraphics().DrawImage(ToolBoxBitmap, 0, 0);
             ToolBoxGraphics.Clear(Tool_Box_Panel_MC.BackColor);
+
+            Tool_Box_Panel_MC.AutoScrollMinSize = new Size(
+                Tool_Box_Panel_MC.Width - 50,
+                (MapSizeZoom * (_y + 2))
+                );
         }
 
         private void SelectingTile(object sender, MouseEventArgs e) {
