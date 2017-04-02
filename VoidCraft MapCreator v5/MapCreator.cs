@@ -197,7 +197,7 @@ namespace VoidCraft_MapCreator_v5 {
 
             Tool_Box_Panel_MC.AutoScrollMinSize = new Size(
                 Tool_Box_Panel_MC.Width - 50,
-                (MapSizeZoom * (_y + 2))
+                ((MapSizeZoom * _y)+(13*_y))
                 );
         }
 
