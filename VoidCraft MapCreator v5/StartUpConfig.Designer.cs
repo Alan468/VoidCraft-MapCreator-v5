@@ -45,6 +45,7 @@
             this.NewProject_Back_SC = new System.Windows.Forms.Button();
             this.Layers_Panel_SC = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.Layers_Id_Selector_SC = new System.Windows.Forms.NumericUpDown();
             this.Layers_Layer_Selector_SC = new System.Windows.Forms.NumericUpDown();
@@ -61,7 +62,6 @@
             this.DataGrid_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Layers_Ok_SC = new System.Windows.Forms.Button();
             this.Layers_Back_SC = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
             this.NewLoad_Panel_SC.SuspendLayout();
             this.NewProject_Panel_SC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NewProject_Input_Layers_SC)).BeginInit();
@@ -341,6 +341,16 @@
             this.panel2.Size = new System.Drawing.Size(647, 100);
             this.panel2.TabIndex = 3;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.ForeColor = System.Drawing.Color.DarkRed;
+            this.label12.Location = new System.Drawing.Point(3, 50);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(298, 13);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "ID muszą być w kolejności ,bez przerw w kolejności numeracji";
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -353,6 +363,7 @@
             // 
             // Layers_Id_Selector_SC
             // 
+            this.Layers_Id_Selector_SC.Enabled = false;
             this.Layers_Id_Selector_SC.Location = new System.Drawing.Point(375, 61);
             this.Layers_Id_Selector_SC.Maximum = new decimal(new int[] {
             10000,
@@ -496,16 +507,6 @@
             this.Layers_Back_SC.Text = "Cofnij";
             this.Layers_Back_SC.UseVisualStyleBackColor = true;
             this.Layers_Back_SC.Click += new System.EventHandler(this.Layers_Back_SC_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.ForeColor = System.Drawing.Color.DarkRed;
-            this.label12.Location = new System.Drawing.Point(3, 50);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(298, 13);
-            this.label12.TabIndex = 7;
-            this.label12.Text = "ID muszą być w kolejności ,bez przerw w kolejności numeracji";
             // 
             // StartUpConfig
             // 
