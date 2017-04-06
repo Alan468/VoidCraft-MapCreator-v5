@@ -25,6 +25,8 @@ namespace VoidCraft_MapCreator_v5 {
         private int PenSize;
         bool LinieSiatki, NumerowanieLinii;
         public bool RestartApp { get; set; }
+        public int InitMapSizeZoom { get; private set; }
+
         private bool AutomaticRefres = true;
         private bool PaintAreaSelector = true;
 
@@ -35,6 +37,7 @@ namespace VoidCraft_MapCreator_v5 {
             RestartApp = false;
             PenSize = 0;
             MapSizeZoom = 50;
+            InitMapSizeZoom = MapSizeZoom;
             LinieSiatki = true;
             NumerowanieLinii = true;
             SelectedTile_Left = new int[2];
@@ -197,7 +200,7 @@ namespace VoidCraft_MapCreator_v5 {
 
             Tool_Box_Panel_MC.AutoScrollMinSize = new Size(
                 Tool_Box_Panel_MC.Width - 50,
-                ((MapSizeZoom * _y)+(13*_y))
+                ((InitMapSizeZoom * _y)+(13*_y))
                 );
         }
 
