@@ -193,7 +193,8 @@ namespace VoidCraft_MapCreator_v5 {
                     
                 }
             }
-            Layers_Layer_Selector_SC.Value++;
+            if(Layers_Layer_Selector_SC.Value < ProjectData.Layers-1)
+                Layers_Layer_Selector_SC.Value++;
             Layers_Id_Selector_SC.Value = 0;
             UpdateDataGridView();
         }
